@@ -17,6 +17,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/slice/userSlice";
 
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
@@ -37,6 +39,7 @@ const formSchema = z.object({
 });
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,13 +57,13 @@ const RegisterPage = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await fetch("/api/auth/register", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       body: JSON.stringify(values),
     })
       .then((res) => {
         if (res.ok) {
-          console.log("Registered Successfully");
+          console.log("Register Successfully");
           return res.json();
         } else {
           console.log("Error on Register Page");
@@ -71,6 +74,7 @@ const RegisterPage = () => {
       });
 
     if (res) {
+      dispatch(setUser(res?.user));
       router.replace("/");
     }
   }

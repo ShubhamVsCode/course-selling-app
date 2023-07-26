@@ -58,11 +58,11 @@ const LoginPage = () => {
           console.log("Login Successfully");
           return res.json();
         } else {
-          console.log("Error on Register Page");
+          console.log("Error on Login Page");
         }
       })
       .catch((error) => {
-        console.log("Error on Register Page", error?.message);
+        console.log("Error on Login Page", error?.message);
       });
 
     if (res) {
